@@ -1,0 +1,7 @@
+== rails-irc-log
+
+1. Configure config/database.yml like you would for any Rails app.
+2. rake db:migrate
+3. Configure config/irc.yml with the server, login, and channel info for the logging bot.
+4. script/logger start
+5. Create a controller and some views to access/display stored Message models.
