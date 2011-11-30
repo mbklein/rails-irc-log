@@ -1,0 +1,6 @@
+--- 
+:server: irc.freenode.net
+:port: 8000
+:nick: activelogger
+:channels: 
+- "#activelogger-test"

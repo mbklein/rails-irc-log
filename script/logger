@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'environment'))
+require 'daemons'
+require 'yaml'
+
+config_file = File.join(Rails.root,'config','irc.yml')
+config = YAML.load(File.read(config_file))
+worker = IrcLogger.new(config)
+
+Daemons.run_proc('irclogger', :stop_proc => lambda { worker.finalize }) do
+  Signal.trap('INT') { worker.finalize; exit }
+  Rails.logger = ActiveSupport::BufferedLogger.new(File.join(Rails.root,'log','logger.log'))
+  worker.run
+end
