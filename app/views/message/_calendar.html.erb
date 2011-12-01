@@ -1,0 +1,7 @@
+<%= calendar_for(year.to_i, month.to_i) do |day|
+  if Message.find(:first, :conditions => { :where => "##{channel}", :when => (day..(day+1.day))})
+    link_to(day.day, day_path(channel, day.year, day.month, day.day))
+  else
+    day.day
+  end
+end %>

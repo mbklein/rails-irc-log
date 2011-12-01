@@ -1,0 +1,4 @@
+<h1>#<%= params[:channel] %> log for <%= @date.strftime('%Y-%m-%d') %></h1>
+<% @messages.each do |msg| %>
+  <span class="message">[<%= msg.when.localtime.strftime('%H:%M:%S') %>] &lt;<%= msg.who %>&gt; <%= msg.what %></span><br/>
+<% end %>

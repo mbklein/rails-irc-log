@@ -1,4 +1,9 @@
 Irclog::Application.routes.draw do
+  match ':channel'                   => 'message#view_channel', :as => 'channel'
+  match ':channel/:year'             => 'message#view_year', :as => 'year'
+  match ':channel/:year/:month'      => 'message#view_month', :as => 'month'
+  match ':channel/:year/:month/:day' => 'message#view_day', :as => 'day'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
