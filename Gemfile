@@ -7,7 +7,8 @@ gem 'rails', '3.1.3'
 
 gem 'sqlite3', :group => :development
 gem 'sqlite3', :group => :test
-gem "mysql2", "~> 0.2.7", :group => :production
+gem 'mysql2',  :group => :production
+gem 'therubyracer'
 
 gem 'json'
 
