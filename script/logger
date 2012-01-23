@@ -4,10 +4,19 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'envi
 require 'daemons'
 require 'yaml'
 
-Daemons.run_proc('irclogger', :stop_proc => lambda { worker.finalize }) do
-  config_file = File.join(Rails.root,'config','irc.yml')
-  config = YAML.load(File.read(config_file))
-  worker = IrcLogger.new(config)
+config_file = File.join(Rails.root,'config','irc.yml')
+config = YAML.load(File.read(config_file))
+worker = IrcLogger.new(config)
+
+daemon_opts = {
+  :dir_mode => :normal, 
+  :dir => File.join(Rails.root,'tmp/pid'), 
+  :log_dir => File.join(Rails.root,'log'), 
+  :log_output => true, 
+  :stop_proc => lambda { worker.finalize }
+}
+
+Daemons.run_proc('irclogger', daemon_opts) do
   Signal.trap('INT') { worker.finalize; exit }
   Rails.logger = ActiveSupport::BufferedLogger.new(File.join(Rails.root,'log','logger.log'))
   worker.run
