@@ -5,3 +5,12 @@
  *= require_self
  *= require_tree . 
 */
+
+body {
+  font-family: verdana, sans-serif;
+  font-size: 0.8em;
+}
+
+div#main {
+  width: 63em;
+}

@@ -1,5 +1,5 @@
-<%= calendar_for(year.to_i, month.to_i) do |day|
-  if Message.find(:first, :conditions => { :where => "##{channel}", :when => (day..(day+1.day))})
+<%= calendar_for(year.to_i, month.to_i, opts) do |day|
+  if Message.messages_for? channel, day
     link_to(day.day, day_path(channel, day.year, day.month, day.day))
   else
     day.day

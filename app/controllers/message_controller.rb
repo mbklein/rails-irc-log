@@ -8,7 +8,17 @@ class MessageController < ApplicationController
   end
 
   def view_month
-    
+  end
+
+  def view_year
+  end
+  
+  def view_channel
+    redirect_to year_path(params[:channel], Date.today.year)
+  end
+  
+  def view_root
+    @channels = Message.select('"where"').collect { |m| m.where }.uniq.sort
   end
   
 end

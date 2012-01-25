@@ -1,4 +1,19 @@
-<h1>#<%= params[:channel] %> log for <%= @date.strftime('%Y-%m-%d') %></h1>
-<% @messages.each do |msg| %>
-  <span class="message">[<%= msg.when.localtime.strftime('%H:%M:%S') %>] &lt;<%= msg.who %>&gt; <%= msg.what %></span><br/>
+<% @title = capture do %>
+   <%= @date.strftime('%Y-%m-%d') %> - #<%= params[:channel] %>
 <% end %>
+<div id="content">
+  <div style="float:left; text-align:left"><%=link_to('&laquo;'.html_safe, path_for_date(params[:channel],@date-1.day))%></div>
+  <div style="float:right; text-align:right"><%=link_to('&raquo;'.html_safe, path_for_date(params[:channel],@date+1.day))%></div>
+  <div style="text-align:center">
+    <%=I18n.localize(@date, :format => '%B')%> <%=@date.day%>, <%= link_to(@date.year,year_path(params[:channel],@date.year))%> - #<%= params[:channel] %>
+  </div>
+  <table class="messages">
+    <% @messages.each_with_index do |msg,i| %>
+      <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
+        <td class="when"><%= msg.when.localtime.strftime('%H:%M:%S') %></td>
+        <td class="who"><%= msg.who %></td>
+        <td class="what"><%= msg.what.split(/\n\n/).collect { |p| content_tag('p', p) }.join('').html_safe %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

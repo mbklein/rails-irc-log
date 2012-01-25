@@ -1,0 +1,17 @@
+<% @title = "##{params[:channel]}: #{params[:year]}" %>
+<table class="fullyear">
+  <tr class="head">
+    <td style="text-align: left"><%= link_to '&laquo;'.html_safe, year_path(params[:channel], params[:year].to_i-1)%></td>
+    <td style="text-align: center">#<%= params[:channel] %>: <%= params[:year] %></td>
+    <td style="text-align: right"><%= link_to '&raquo;'.html_safe, year_path(params[:channel], params[:year].to_i+1)%></td>
+  </tr>
+  <% (1..12).to_a.in_groups_of(3).each do |quarter| %>
+    <tr class="quarter">
+    <% quarter.each do |month| %>
+    <td class="month">
+      <%= render :partial => 'message/calendar', :locals => { :channel => params[:channel], :year => params[:year], :month => month, :opts => year_display_opts } %>
+    </td>
+    <% end %>
+    </tr>
+  <% end %>
+</table>

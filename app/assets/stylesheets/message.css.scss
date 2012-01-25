@@ -1,3 +1,37 @@
 // Place all the styles related to the Message controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.fullyear {
+	tr.head {
+		td { text-align: center }
+	}
+	td.month {
+		vertical-align: top;
+	}
+}
+
+table.calendar {
+	.otherMonth {
+		color: gray;
+	}
+}
+
+table.messages {
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+	tr {
+		&.even { background-color: lightgray }
+		td { 
+			vertical-align: baseline;
+			padding: 2px 3px;
+			margin: 0px;
+			&.when { width: 5.5em; font-size: 80%; color: gray }
+			&.who  { width: 7.55em; text-align: right; color: blue }
+			&.what { width: 50em }
+			p:first-child { margin-top: 0 !important }
+			p:last-child { margin-bottom: 0 !important }
+		}
+	}
+}
