@@ -8,11 +8,16 @@ table.fullyear {
 	}
 	td.month {
 		vertical-align: top;
+		padding: 2px 1em;
 	}
 }
 
 table.calendar {
+	tr td {
+		width: 2em;
+	}
 	.otherMonth {
+		visibility: hidden;
 		color: gray;
 	}
 }
