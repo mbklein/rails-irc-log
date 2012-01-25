@@ -4,7 +4,7 @@
 <div id="content">
   <div style="float:left; text-align:left"><%=link_to('&laquo;'.html_safe, path_for_date(params[:channel],@date-1.day))%></div>
   <div style="float:right; text-align:right"><%=link_to('&raquo;'.html_safe, path_for_date(params[:channel],@date+1.day))%></div>
-  <div style="text-align:center">
+  <div style="text-align:center; font-weight: bold">
     <%=I18n.localize(@date, :format => '%B')%> <%=@date.day%>, <%= link_to(@date.year,year_path(params[:channel],@date.year))%> - #<%= params[:channel] %>
   </div>
   <table class="messages">

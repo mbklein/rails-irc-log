@@ -1,9 +1,5 @@
 module MessageHelper
   
-  def years_with_messages channel, start
-    Message.find(:all, :select => '"when"', :conditions => { :where => "##{channel}" }).collect { |m| m.when.year }.uniq.sort.reverse
-  end
-
   def month_display_opts
     {
       :previous_month => ['&laquo;', lambda { |date| month_path(params[:channel], date.year, date.month) }],

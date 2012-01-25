@@ -23,13 +23,13 @@ class IrcLogger
 
       on :connect do
         context.config[:channels].each do |channel|
-          Message.create :who => context.config[:nick], :what => "/join", :when => Time.now, :where => channel
+          Message.create :who => context.config[:nick], :what => "/join", :when => Time.now, :channel => channel
           join channel
         end
       end
 
       on :channel do
-        Message.create :who => nick, :what => message, :when => Time.now, :where => channel
+        Message.create :who => nick, :what => message, :when => Time.now, :channel => channel
       end
     end
     EventMachine.run { bot.start }
@@ -37,7 +37,7 @@ class IrcLogger
 
   def finalize
     config[:channels].each do |channel|
-      Message.create :who => config[:nick], :what => "/quit", :when => Time.now, :where => channel
+      Message.create :who => config[:nick], :what => "/quit", :when => Time.now, :channel => channel
     end
   end
   

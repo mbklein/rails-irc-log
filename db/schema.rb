@@ -10,13 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111130225644) do
+ActiveRecord::Schema.define(:version => 20120125015036) do
 
   create_table "messages", :force => true do |t|
     t.string   "who"
     t.text     "what"
     t.datetime "when"
-    t.string   "where"
+    t.string   "channel"
   end
 
 end
