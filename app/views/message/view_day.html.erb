@@ -1,19 +1,24 @@
 <% @title = capture do %>
-   <%= @date.strftime('%Y-%m-%d') %> - #<%= params[:channel] %>
+   <%= @date.strftime('%Y-%m-%d') %> - #<%= @channel %>
 <% end %>
 <div id="content">
-  <div style="float:left; text-align:left"><%=link_to('&laquo;'.html_safe, path_for_date(params[:channel],@date-1.day))%></div>
-  <div style="float:right; text-align:right"><%=link_to('&raquo;'.html_safe, path_for_date(params[:channel],@date+1.day))%></div>
+  <div style="float:left; text-align:left"><%=link_to("&laquo; #{display_day_month(@date-1.day)}".html_safe, path_for_date(@channel,@date-1.day))%></div>
+  <div style="float:right; text-align:right"><%=link_to("#{display_day_month(@date+1.day)} &raquo;".html_safe, path_for_date(@channel,@date+1.day))%></div>
   <div style="text-align:center; font-weight: bold">
-    <%=I18n.localize(@date, :format => '%B')%> <%=@date.day%>, <%= link_to(@date.year,year_path(params[:channel],@date.year))%> - #<%= params[:channel] %>
+    #<%= @channel %>: <%=display_month(@date)%> <%=@date.day%>, <%= link_to(@date.year,year_path(@channel,@date.year))%>
   </div>
   <table class="messages">
     <% @messages.each_with_index do |msg,i| %>
       <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
-        <td class="when"><%= msg.when.localtime.strftime('%H:%M:%S') %></td>
+        <td class="when"><a name="<%=msg.id%>"><%= Time.zone.at(msg.when.utc).strftime('%H:%M:%S') %></a></td>
         <td class="who"><%= msg.who %></td>
-        <td class="what"><%= msg.what.split(/\n\n/).collect { |p| content_tag('p', p) }.join('').html_safe %></td>
+        <td class="what"><%= format_msg(msg.what) %></td>
       </tr>
     <% end %>
   </table>
 </div>
+
+<div style="float: right; margin-top: 1em;">
+Time Zone: <%= select_tag 'tz', time_zone_list, :id => 'tz' %>
+</div>
+<div></div>

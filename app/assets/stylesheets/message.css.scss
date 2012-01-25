@@ -2,6 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.highlight { color: red; }
+
+a, a:visited {
+	color: blue;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
 table.fullyear {
 	tr.head {
 		td { text-align: center }
@@ -15,6 +26,9 @@ table.fullyear {
 table.calendar {
 	tr td {
 		width: 2em;
+	}
+	.day {
+		color: gray;
 	}
 	.otherMonth {
 		visibility: hidden;
