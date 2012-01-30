@@ -26,6 +26,7 @@ gem 'daemons'
 gem 'isaac', :require => 'isaac/bot'
 gem 'eventmachine'
 gem 'later_dude'
+gem 'rails_autolink'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

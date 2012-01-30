@@ -9,7 +9,7 @@ module MessageHelper
   end
   
   def format_msg text
-    result = text.split(/\n\n/).collect { |p| content_tag('p', p) }.join('')
+    result = text.split(/\n\n/).collect { |p| content_tag('p', auto_link(p)) }.join('')
     @highlights.each do |hl|
       result.gsub!(/\b#{hl}\b/i) { |m| content_tag('span', m, :class => 'highlight') }
     end
