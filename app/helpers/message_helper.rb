@@ -9,11 +9,17 @@ module MessageHelper
   end
   
   def format_msg text
-    result = text.split(/\n\n/).collect { |p| content_tag('p', auto_link(p)) }.join('')
-    @highlights.each do |hl|
-      result.gsub!(/\b#{hl}\b/i) { |m| content_tag('span', m, :class => 'highlight') }
+    if text =~ /^\001ACTION (.+)\001$/
+      content_tag('i', auto_link($1.strip))
+    elsif text =~ /^(joined|left) #/
+      content_tag('i', text)
+    else
+      result = text.split(/\n\n/).collect { |p| content_tag('p', auto_link(p)) }.join('')
+      @highlights.each do |hl|
+        result.gsub!(/\b#{hl}\b/i) { |m| content_tag('span', m, :class => 'highlight') }
+      end
+      result.html_safe
     end
-    result.html_safe
   end
   
   def month_display_opts

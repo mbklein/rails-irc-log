@@ -23,11 +23,19 @@ class IrcLogger
 
       on :connect do
         context.config[:channels].each do |channel|
-          Message.create :who => context.config[:nick], :what => "/join", :when => Time.now, :channel => channel
+#          Message.create :who => context.config[:nick], :what => "/join", :when => Time.now, :channel => channel
           join channel
         end
       end
 
+      on :join do
+        Message.create :who => nick, :what => "joined #{channel}", :when => Time.now, :channel => channel
+      end
+
+      on :part do
+        Message.create :who => nick, :what => "left #{channel}", :when => Time.now, :channel => channel
+      end
+      
       on :channel do
         unless message =~ /^!/
           Message.create :who => nick, :what => message, :when => Time.now, :channel => channel
