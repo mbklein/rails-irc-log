@@ -29,7 +29,9 @@ class IrcLogger
       end
 
       on :channel do
-        Message.create :who => nick, :what => message, :when => Time.now, :channel => channel
+        unless message =~ /^!/
+          Message.create :who => nick, :what => message, :when => Time.now, :channel => channel
+        end
       end
     end
     EventMachine.run { bot.start }
