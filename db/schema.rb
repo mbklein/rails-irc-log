@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120125015036) do
+ActiveRecord::Schema.define(:version => 20120203233207) do
 
   create_table "messages", :force => true do |t|
     t.string   "who"
@@ -18,5 +18,7 @@ ActiveRecord::Schema.define(:version => 20120125015036) do
     t.datetime "when"
     t.string   "channel"
   end
+
+  add_index "messages", ["channel", "when"], :name => "index_messages_on_channel_and_when"
 
 end
