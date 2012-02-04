@@ -10,9 +10,11 @@ class MessageController < ApplicationController
   end
 
   def view_month
+    @linked_dates = Message.dates_with_messages @channel, @year, @month
   end
 
   def view_year
+    @linked_dates = Message.dates_with_messages @channel, @year
   end
   
   def view_channel
