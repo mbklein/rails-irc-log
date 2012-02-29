@@ -11,8 +11,8 @@ module MessageHelper
   def format_msg text
     if text =~ /^\001ACTION (.+)\001$/
       content_tag('i', auto_link($1.strip))
-    elsif text =~ /^(joined|left) #/
-      content_tag('i', text)
+    elsif (text =~ /^(joined|left) #/)
+      content_tag('i', text) if is_true?(params[:joins])
     else
       result = text.split(/\n\n/).collect { |p| content_tag('p', auto_link(p)) }.join('')
       @highlights.each do |hl|

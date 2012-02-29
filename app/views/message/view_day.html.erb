@@ -9,11 +9,14 @@
   </div>
   <table class="messages">
     <% @messages.each_with_index do |msg,i| %>
+      <% content = format_msg(msg.what) %>
+      <% unless content.nil? %>
       <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
         <td class="when"><a name="<%=msg.id%>"><%= Time.zone.at(msg.when.utc).strftime('%H:%M:%S') %></a></td>
         <td class="who"><%= msg.who %></td>
-        <td class="what"><%= format_msg(msg.what) %></td>
+        <td class="what"><%= content %></td>
       </tr>
+      <% end %>
     <% end %>
   </table>
 </div>
