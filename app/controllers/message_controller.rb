@@ -22,9 +22,27 @@ class MessageController < ApplicationController
   end
   
   def view_root
-    @channels = Message.select(:channel).collect { |m| m.channel }.uniq.sort
+    @channels = Message.select('DISTINCT channel').collect { |m| m.channel }.sort
   end
 
+  def generate_sitemap
+    @channels = Message.select('DISTINCT channel').collect { |m| m.channel }.sort
+    root = URI.parse(request.url).merge('/')
+    builder = Nokogiri::XML::Builder.new do |xml|
+      xml.urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') do
+        @channels.each { |channel|
+          Message.dates_with_messages(channel).each { |date|
+            xml.url do
+              xml.loc root.merge(day_path :channel => channel.sub(/^#/,''), :year => date.year, :month => date.month, :day => date.day).to_s
+              xml.lastmod date.strftime '%Y-%m-%d'
+            end
+          }
+        }
+      end
+    end
+    render :xml => builder.doc.to_xml
+  end
+  
   def set_param_variables
     @channel = params[:channel]
     @year = params[:year].to_i

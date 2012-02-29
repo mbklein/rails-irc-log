@@ -12,7 +12,7 @@ class Message < ActiveRecord::Base
     end_date = start_date + (month.nil? ? 1.year : 1.month)
     dates = self.find :all, :select => %{DISTINCT SUBSTR(`when`,1,10) AS `when`}, 
       :conditions => { :channel => channel, :when => start_date..end_date }
-    dates.collect { |d| d.when.to_date }
+    dates.collect { |d| d.when.to_date }.sort
   end
   
 end

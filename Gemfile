@@ -11,6 +11,7 @@ gem 'mysql2',  '>= 0.3.0', :group => :production
 gem 'therubyracer'
 
 gem 'json'
+gem 'nokogiri'
 
 # Gems used only for assets and not required
 # in production environments by default.
