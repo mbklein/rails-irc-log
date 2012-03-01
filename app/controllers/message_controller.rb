@@ -5,8 +5,8 @@ class MessageController < ApplicationController
   
   def view_day
     @highlights = params[:highlight] || get_referer_search_terms
-    @date = Time.local(@year,@month,@day).utc
-    @messages = Message.find :all, :conditions => { :channel => "##{@channel}", :when => (@date..(@date+1.day-1.second))}
+    @date = Time.zone.local(@year,@month,@day)
+    @messages = Message.messages_for @channel, @date
   end
 
   def view_month
