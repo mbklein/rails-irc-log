@@ -1,0 +1,7 @@
+<% 
+	extra_styles = nil unless defined? extra_styles
+	style = [extra_styles, 'margin-top: 1em;'].compact.join('; ')
+%>
+<div style="<%= style %>">
+Time Zone: <%= select_tag 'tz', time_zone_list, :id => 'tz' %>
+</div>

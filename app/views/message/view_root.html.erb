@@ -1,3 +1,4 @@
 <% @channels.each do |channel| %>
   <%= link_to "#{channel}", channel_path(channel.sub(/^#/,'')) %>
 <% end %>
+<%= render :partial => '/message/time_zone_selector' %>

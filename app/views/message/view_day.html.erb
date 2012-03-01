@@ -21,7 +21,5 @@
   </table>
 </div>
 
-<div style="float: right; margin-top: 1em;">
-Time Zone: <%= select_tag 'tz', time_zone_list, :id => 'tz' %>
-</div>
+<%= render :partial => '/message/time_zone_selector', :locals => { :extra_styles => 'float: right' } %>
 <div></div>
