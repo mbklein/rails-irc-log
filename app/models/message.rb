@@ -8,11 +8,10 @@ class Message < ActiveRecord::Base
     if year.nil?
       year = Date.current.year
     end
-    start_date = month.nil? ? Date.new(year,1,1) : Date.new(year,month,1)
-    end_date = start_date + (month.nil? ? 1.year : 1.month)
-    dates = self.find :all, :select => %{DISTINCT SUBSTR(`when`,1,10) AS `when`}, 
-      :conditions => { :channel => channel, :when => start_date..end_date }
-    dates.collect { |d| d.when.to_date }.sort
+    start_time = month.nil? ? Time.local(year,1,1) : Time.local(year,month,1)
+    end_time = start_time + (month.nil? ? 1.year : 1.month) - 1.second
+    dates = self.find :all, :conditions => { :channel => channel, :when => start_time.utc..end_time.utc }
+    dates.collect { |d| d.when.localtime.to_date }.sort.uniq
   end
   
 end

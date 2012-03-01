@@ -10,15 +10,11 @@ class MessageController < ApplicationController
   end
 
   def view_month
-    with_time_zone 'UTC' do
-      @linked_dates = Message.dates_with_messages "##{@channel}", @year, @month
-    end
+    @linked_dates = Message.dates_with_messages "##{@channel}", @year, @month
   end
 
   def view_year
-    with_time_zone 'UTC' do
-      @linked_dates = Message.dates_with_messages "##{@channel}", @year
-    end
+    @linked_dates = Message.dates_with_messages "##{@channel}", @year
   end
   
   def view_channel
