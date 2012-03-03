@@ -51,7 +51,6 @@ class MessageController < ApplicationController
       format.xml  {
         builder = Nokogiri::XML::Builder.new do |xml|
           xml.urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') do
-            xml.comment "Time Zone: #{Time.zone.name}"
             routes.each { |route|
               xml.url do
                 xml.loc route[:loc]
