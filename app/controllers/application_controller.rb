@@ -19,6 +19,6 @@ class ApplicationController < ActionController::Base
       cookies[:tz] = { :value => params[:tz], :path => '/', :expires => 10.years.from_now }
       redirect_to request.path
     end
-    Time.zone = cookies[:tz] unless cookies[:tz].nil?
+    Time.zone = cookies[:tz].nil? ? 'America/New_York' : cookies[:tz]
   end
 end

@@ -26,35 +26,42 @@ class MessageController < ApplicationController
   end
 
   def generate_sitemap
-    with_time_zone 'UTC' do
-      @channels = Message.select('DISTINCT channel').collect { |m| m.channel }.sort
-      root = URI.parse(request.url).merge('/')
-      routes = @channels.collect { |channel|
-        Message.dates_with_messages(channel).collect { |date|
-          { 
-            :lastmod => date.strftime('%Y-%m-%d'), 
-            :loc => root.merge(day_path :channel => channel.sub(/^#/,''), :year => date.year, :month => date.month, :day => date.day).to_s 
-          }
+    @channels = Message.select('DISTINCT channel').collect { |m| m.channel }.sort
+    root = URI.parse(request.url).merge('/')
+    routes = @channels.collect { |channel|
+      dates = Message.dates_with_messages(channel)
+      locs = dates.collect { |date|
+        { 
+          :lastmod => Date.today.strftime('%Y-%m-%d'), 
+#          :lastmod => date.strftime('%Y-%m-%d'), 
+          :loc => root.merge(day_path :channel => channel.sub(/^#/,''), :year => date.year, :month => date.month, :day => date.day).to_s 
         }
-      }.flatten
+      }
+#      locs += dates.group_by { |d| d.year }.collect { |y,d| d.max }.collect { |date|
+#        {
+#          :lastmod => date.strftime('%Y-%m-%d'), 
+#          :loc => root.merge(year_path :channel => channel.sub(/^#/,''), :year => date.year).to_s 
+#        }
+#      }
+    }.flatten
 
-      respond_to do |format|
-        format.json { render :json => routes.to_json }
-        format.text { render :text => routes.collect { |route| route[:loc] }.join("\n") }
-        format.xml  {
-          builder = Nokogiri::XML::Builder.new do |xml|
-            xml.urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') do
-              routes.each { |route|
-                xml.url do
-                  xml.loc route[:loc]
-                  xml.lastmod route[:lastmod]
-                end
-              }
-            end
+    respond_to do |format|
+      format.json { render :json => routes.to_json }
+      format.text { render :text => routes.collect { |route| route[:loc] }.join("\n") }
+      format.xml  {
+        builder = Nokogiri::XML::Builder.new do |xml|
+          xml.urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') do
+            xml.comment "Time Zone: #{Time.zone.name}"
+            routes.each { |route|
+              xml.url do
+                xml.loc route[:loc]
+                xml.lastmod route[:lastmod]
+              end
+            }
           end
-          render :xml => builder.doc.to_xml
-        }
-      end
+        end
+        render :xml => builder.doc.to_xml
+      }
     end
   end
   
