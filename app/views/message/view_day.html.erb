@@ -2,8 +2,8 @@
    <%= @date.strftime('%Y-%m-%d') %> - #<%= @channel %>
 <% end %>
 <div id="content">
-  <div style="float:left; text-align:left"><%=link_to("&laquo; #{display_day_month(@date-1.day)}".html_safe, path_for_date(@channel,@date-1.day))%></div>
-  <div style="float:right; text-align:right"><%=link_to("#{display_day_month(@date+1.day)} &raquo;".html_safe, path_for_date(@channel,@date+1.day))%></div>
+  <div style="float:left; text-align:left"><%= previous_day_with_messages @channel, @date %></div>
+  <div style="float:right; text-align:right"><%= next_day_with_messages @channel, @date %></div>
   <div style="text-align:center; font-weight: bold">
     #<%= @channel %>: <%=display_month(@date)%> <%=@date.day%>, <%= link_to(@date.year,year_path(@channel,@date.year))%>
   </div>

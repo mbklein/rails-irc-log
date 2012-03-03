@@ -1,5 +1,15 @@
 class Message < ActiveRecord::Base
 
+  def self.after_date channel, time
+    midnight_tomorrow = Time.zone.local(time.year,time.month,time.day)+1.day
+    self.find(:first, :conditions => ["channel = ? AND `when` >= ?", "##{channel}", midnight_tomorrow], :order => "`when` ASC")
+  end
+  
+  def self.before_date channel, time
+    midnight_today = Time.zone.local(time.year,time.month,time.day)
+    self.find(:first, :conditions => ["channel = ? AND `when` < ?", "##{channel}", midnight_today], :order => "`when` DESC")
+  end
+  
   def self.messages_for? channel, date
     self.find(:first, :conditions => { :channel => "##{channel}", :when => (date..(date+1.day-1.second)) }) ? true : false
   end

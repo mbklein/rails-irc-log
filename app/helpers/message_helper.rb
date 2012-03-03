@@ -24,9 +24,13 @@ module MessageHelper
   
   def month_display_opts
     {
-      :previous_month => ['&laquo;', lambda { |date| month_path(@channel, date.year, date.month) }],
+      :previous_month => ['&laquo;', lambda { |date| 
+        Message.dates_with_messages(@channel, date.year, date.month).empty? ? nil : month_path(@channel, date.year, date.month) 
+      }],
       :current_month => lambda { |date| "#{display_month(date)} #{link_to(date.year, year_path(@channel, date.year))}" },
-      :next_month => ['&raquo;', lambda { |date| month_path(@channel, date.year, date.month) }]
+      :next_month => ['&raquo;', lambda { |date| 
+        Message.dates_with_messages(@channel, date.year, date.month).empty? ? nil : month_path(@channel, date.year, date.month) 
+      }]
     }
   end
   
@@ -38,6 +42,42 @@ module MessageHelper
   
   def path_for_date channel, date
     day_path(channel, date.year, date.month, date.day)
+  end
+  
+  def next_day_with_messages channel, date
+    msg = Message.after_date(channel, date)
+    Rails.logger.info(msg.inspect)
+    unless msg.nil?
+      date = msg.when
+      link_to("#{display_day_month(date)} &raquo;".html_safe, path_for_date(channel,date))
+    end
+  end
+  
+  def previous_day_with_messages channel, date
+    msg = Message.before_date(channel, date)
+    Rails.logger.info(msg.inspect)
+    unless msg.nil?
+      date = msg.when
+      link_to("&laquo; #{display_day_month(date)}".html_safe, path_for_date(channel,date))
+    end
+  end
+  
+  def next_year_with_messages channel, year
+    msg = Message.after_date(channel, Time.zone.local(year,12,31))
+    Rails.logger.info(msg.inspect)
+    unless msg.nil?
+      date = msg.when
+      link_to "#{date.year} &raquo;".html_safe, year_path(channel, date.year)
+    end
+  end
+  
+  def previous_year_with_messages channel, year
+    msg = Message.before_date(channel, Time.zone.local(year,1,1))
+    Rails.logger.info(msg.inspect)
+    unless msg.nil?
+      date = msg.when
+      link_to "&laquo; #{date.year}".html_safe, year_path(channel, date.year)
+    end
   end
   
   def time_zone_list

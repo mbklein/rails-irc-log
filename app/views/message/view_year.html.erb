@@ -1,9 +1,9 @@
 <% @title = "##{@channel}: #{@year}" %>
 <table class="fullyear">
   <tr class="head">
-    <td style="text-align: left"><%= link_to "&laquo; #{@year-1}".html_safe, year_path(@channel, @year-1)%></td>
+    <td style="text-align: left"><%= previous_year_with_messages(@channel, @year) %></td>
     <td style="text-align: center; font-weight: bold">#<%= @channel %>: <%= @year %></td>
-    <td style="text-align: right"><%= link_to "#{@year+1} &raquo;".html_safe, year_path(@channel, @year+1)%></td>
+    <td style="text-align: right"><%= next_year_with_messages(@channel, @year) %></td>
   </tr>
   <% (1..12).to_a.in_groups_of(3).each do |quarter| %>
     <tr class="quarter">
